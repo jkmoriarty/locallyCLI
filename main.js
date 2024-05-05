@@ -233,6 +233,10 @@ program
       shell.exec(`sudo mkcert -install ${domain}`);
       shell.exec(`mv ${domain}.pem _localcerts/${domain}.pem`);
       shell.exec(`mv ${domain}-key.pem _localcerts/${domain}-key.pem`);
+
+      // ensure that certs are readable by all
+      shell.exec(`sudo chmod 644 _localcerts/${domain}.pem`);
+      shell.exec(`sudo chmod 644 _localcerts/${domain}-key.pem`);
       
       // get directory path for where the cert is stored
       let certDir = shell.exec('pwd', {silent: true}).stdout.trim() + '/' + config.defaultCertDir;
