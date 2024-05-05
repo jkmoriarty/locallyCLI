@@ -205,7 +205,6 @@ program
 
     // Check if the domain is already in /etc/hosts within the locallyCLI configurations
     let domainExists = _checkIfDomainExists(domain);
-
     
     if (domainExists) {
       shell.echo('\n');
@@ -225,6 +224,7 @@ program
       // Add domain to /etc/hosts in between the locallyCLI configurations
       shell.echo(`(2/4) Adding ${domain}.local ...`);
       domain = domain + '.local';
+      const rawDomain = domain.split('.local')[0];
 
       // Generate the certificate using mkcert in the current directory, then move it to the localcerts directory in the project root
       shell.echo(`(3/4) Generating certificate for ${domain}...`);
@@ -277,7 +277,7 @@ program
         shell.echo(`\x1b[31m"dev": "next dev --experimental-https --experimental-https-cert ./${config.defaultCertDir}/${domain}.pem --experimental-https-key ./${config.defaultCertDir}/${domain}-key.pem"\x1b[0m'`);
         shell.echo(`=====================================================`)
         shell.echo(`Try starting the dev server and visit https://${domain}:3000 to see if it works.`)
-        shell.echo(`If it doesn't, try running 'locally rm ${domain}' and then 'locally add ${domain}' again.`)
+        shell.echo(`If it doesn't, try running 'locally rm ${rawDomain}' and then 'locally add ${rawDomain}' again.`)
         shell.echo(`If the issue persists, please raise an issue on the locallyCLI GitHub repository.`)
         shell.echo(`Script stopped.`)
         shell.echo('\n');
