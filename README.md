@@ -1,6 +1,6 @@
 # LocallyCLI
 
-LocallyCLI is a tool for easily setting up custom localhost domains with the `.local` TLD on macOS. Currently does not work with Windows.
+LocallyCLI is a tool for easily setting up custom localhost domains with the `.local` TLD. 
 
 ## Features
 
@@ -16,13 +16,13 @@ An efficient way to set up, manage and remove custom `.local` domains for your l
 - [ ] Docs
 - [ ] Tests (yes, I know)
 - [ ] Typescript
-- [ ] Windows support
+- [ ] Detect NextJS + modify package.json directly to use the generated certificates
 
 ## Pre-requisites
 
 This tool requires the following to be installed on your system:
 
-1. Homebrew
+1. Shell + Homebrew
 2. Node.js (> v18.0.0)
 
 ## Installation
@@ -47,8 +47,8 @@ This will check if `mkcert` is installed, install it if necessary, set up the re
 After initialization, you can use the following commands:
 
 - `locally list`: List all domains installed by LocallyJS and the status of the self-signed certificate.
-- `locally add [domain.local]`: Add a new local domain with https.
-- `locally rm [domain.local]`: Remove a local domain with https.
+- `locally add [domain]`: Add a new local domain with https (exclude .local).
+- `locally rm [domain]`: Remove a local domain with https (exclude.local).
 
 ## Disclaimers
 This tool is a work in progress and is not yet ready for production use. Use at your own risk.
