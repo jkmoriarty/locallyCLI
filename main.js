@@ -27,7 +27,7 @@ program
  * @function locally init
  * @description Initialize the locally tool
  * @returns {void}
- * @example pnpm locally init
+ * @example locally init
  */
 program
   .command('init')
@@ -117,7 +117,7 @@ program
   });
 
 /**
- * @function pnpm locally debug-hosts
+ * @function locally debug-hosts
  * @description Open the /etc/hosts file
  * @returns {void}
  */
@@ -130,10 +130,10 @@ program
   });
 
 /**
- * @function pnpm locally list
+ * @function locally list
  * @description List all domains installed by locallyCLI and the status of the self-signed certificate
  * @returns {void}
- * @example pnpm locally list
+ * @example locally list
  */
 program
   .command('list')
@@ -161,8 +161,8 @@ program
  * @description Add a new .local domain with https (excl. .local)
  * @param {string} domain - The domain to add
  * @returns {void}
- * @example pnpm locally add mydomain
- * @example pnpm locally add mysubdomain.mydomain
+ * @example locally add mydomain
+ * @example locally add mysubdomain.mydomain
  */
 program
   .command('add <domain>')
@@ -211,7 +211,7 @@ program
       shell.echo('\n');
       shell.echo(`Error: ${domain}.local already exists in /etc/hosts`);
       shell.echo(`=====================================================`)
-      shell.echo(`Try starting the dev server and visit https://${domain}.local to see if it works. If it doesn't, try running 'pnpm locally rm ${domain}' and then 'pnpm locally add ${domain}' again.`);
+      shell.echo(`Try starting the dev server and visit https://${domain}.local to see if it works. If it doesn't, try running 'locally rm ${domain}' and then 'locally add ${domain}' again.`);
       shell.echo(`If the issue persists, please raise an issue on the locallyCLI GitHub repository.`);
       shell.echo(`Script stopped.`)
       shell.echo('\n');
@@ -245,6 +245,7 @@ program
       _insertBeforeEnd(`#--- ${domain}: certdir(${certDir}) ---#`);
       _insertBeforeEnd(`::1 ${domain}`);
       _insertBeforeEnd(`127.0.0.1 ${domain}`);
+      _insertBeforeEnd(`0.0.0.0 ${domain}`);
 
       // read /etc/hosts to check if domain has been added
       let updatedDomainExists = _checkIfDomainExists(domain);
@@ -253,7 +254,7 @@ program
         shell.echo('\n');
         shell.echo(`Error: ${domain}.local could not be added to /etc/hosts`);
         shell.echo(`=====================================================`)
-        shell.echo(`Try running 'pnpm locally add ${domain}' again.`);
+        shell.echo(`Try running 'locally add ${domain}' again.`);
         shell.echo(`You might want to check if /etc/hosts is writable.`)
         shell.echo(`If the issue persists, please raise an issue on the locallyCLI GitHub repository.`);
         shell.echo(`Script stopped.`)
@@ -272,9 +273,10 @@ program
         shell.echo(`Certificate for ${domain} has been generated and stored in ${config.defaultCertDir} directory at the root of your project.`);
         shell.echo(`If you're using NextJS, you'll need to perform some additional configurations to your package.json file.`)
         shell.echo(`Paste the next line into your Scripts > Dev:`);
-        shell.echo(`"dev": "next dev -p 80 --experimental-https --experimental-https-cert ./${config.defaultCertDir}/${domain}.pem --experimental-https-key ./${config.defaultCertDir}/${domain}-key.pem`);
         shell.echo(`=====================================================`)
-        shell.echo(`Try starting the dev server and visit https://${domain} to see if it works.`)
+        shell.echo(`\x1b[31m"dev": "next dev --experimental-https --experimental-https-cert ./${config.defaultCertDir}/${domain}.pem --experimental-https-key ./${config.defaultCertDir}/${domain}-key.pem"\x1b[0m'`);
+        shell.echo(`=====================================================`)
+        shell.echo(`Try starting the dev server and visit https://${domain}:3000 to see if it works.`)
         shell.echo(`If it doesn't, try running 'locally rm ${domain}' and then 'locally add ${domain}' again.`)
         shell.echo(`If the issue persists, please raise an issue on the locallyCLI GitHub repository.`)
         shell.echo(`Script stopped.`)
@@ -291,8 +293,8 @@ program
  * @description Remove a .local domain / subdomain installed by locallyCLI
  * @param {string} domain - The domain to remove
  * @returns {void}
- * @example pnpm locally rm mydomain
- * @example pnpm locally rm mysubdomain.mydomain
+ * @example locally rm mydomain
+ * @example locally rm mysubdomain.mydomain
  */
 program
   .command('rm <domain>')
@@ -315,7 +317,7 @@ program
       shell.echo(`Error: ${domain}.local does not exist in /etc/hosts`);
       shell.echo(`=====================================================`)
       shell.echo(`Did you enter the correct domain name to remove?`);
-      shell.echo(`If you are unsure, run 'pnpm locally list' to see all domains installed by locallyCLI.`);
+      shell.echo(`If you are unsure, run 'locally list' to see all domains installed by locallyCLI.`);
       shell.echo(`Script stopped.`)
       shell.echo('\n');
       shell.exit(1);
@@ -334,6 +336,7 @@ program
       _deleteLineWithText(`#--- ${domain}: certdir`);
       _deleteLineWithText(`::1 ${domain}`);
       _deleteLineWithText(`127.0.0.1 ${domain}`);
+      _deleteLineWithText(`0.0.0.0 ${domain}`);
 
       // Remove the certificate
       shell.echo(`(3/4) Removing certificate for ${domain} from projectRoot...`);
