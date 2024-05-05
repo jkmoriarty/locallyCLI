@@ -1,6 +1,6 @@
 # LocallyCLI
 
-LocallyJS is a CLI tool for easily setting up custom localhost domains with the `.local` TLD on macOS. Currently does not work with Windows.
+LocallyCLI is a tool for easily setting up custom localhost domains with the `.local` TLD on macOS. Currently does not work with Windows.
 
 ## Features
 
