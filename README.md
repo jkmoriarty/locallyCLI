@@ -17,6 +17,7 @@ An efficient way to set up, manage and remove custom `.local` domains for your l
 - [ ] Tests (yes, I know)
 - [ ] Typescript
 - [ ] Detect NextJS + modify package.json directly to use the generated certificates
+- [ ] Global NPM package
 
 ## Pre-requisites
 
