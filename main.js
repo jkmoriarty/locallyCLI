@@ -269,6 +269,11 @@ program
         shell.echo(`=====================================================`)
         shell.echo(`[SUCCESS] Domain ${domain} has been installed.`)
         shell.echo(`=====================================================`)
+        shell.echo(`Certificate for ${domain} has been generated and stored in ${config.defaultCertDir} directory at the root of your project.`);
+        shell.echo(`If you're using NextJS, you'll need to perform some additional configurations to your package.json file.`)
+        shell.echo(`Paste the next line into your Scripts > Dev:`);
+        shell.echo(`"dev": "next dev -p 80 --experimental-https --experimental-https-cert ./${config.defaultCertDir}/${domain}.pem --experimental-https-key ./${config.defaultCertDir}/${domain}-key.pem`);
+        shell.echo(`=====================================================`)
         shell.echo(`Try starting the dev server and visit https://${domain} to see if it works.`)
         shell.echo(`If it doesn't, try running 'locally rm ${domain}' and then 'locally add ${domain}' again.`)
         shell.echo(`If the issue persists, please raise an issue on the locallyCLI GitHub repository.`)
