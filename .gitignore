@@ -13,6 +13,7 @@ dist/
 # Ignore IDE and editor files
 .vscode/
 .idea/
+locally.code-workspace
 
 # Ignore compiled binaries or executables
 *.exe
